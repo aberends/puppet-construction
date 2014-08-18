@@ -47,10 +47,8 @@ rm -rf $RPM_BUILD_ROOT
 /etc/puppet/modules/ldap
 /etc/puppet/modules/lvs
 /etc/puppet/modules/ntp
-/etc/puppet/modules/profiles
 /etc/puppet/modules/prov
 /etc/puppet/modules/rhn_channel
-/etc/puppet/modules/roles
 /etc/puppet/modules/support6
 /etc/puppet/modules/test
 %doc /usr/share/doc/%{name}
