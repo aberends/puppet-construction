@@ -1,0 +1,54 @@
+# AB: note, this file is only used by openldap clients, not
+# by the mozldap-tools clients. The first set of tools is
+# preferred on RHEL 6 and the latter set of tools is
+# preferred on RHEL 5. We checked the source code of mozldap
+# and mozldap-tools to verify if ldap.conf is referred. It
+# is not!
+
+#
+# LDAP Defaults
+#
+
+# See ldap.conf(5) for details
+# This file should be world readable but not world writable.
+
+#BASE dc=example, dc=com
+<%
+a = @ldap_domain.split('.')
+a.each_with_index { |x, i|
+  a[i] = "dc=#{x}"
+} # end of each
+-%>
+BASE <%= a.join(',') %>
+#URI ldap://ldap.example.com ldap://ldap-master.example.com:666
+<%
+list = @servers.map{|x| "ldap://#{x}/"}.join(' ')
+-%>
+URI <%= list %>
+
+#SIZELIMIT 12
+#TIMELIMIT 15
+#DEREF never
+
+<% if @cacert_dir != '/etc/openldap/certs' -%>
+#TLS_CACERTDIR   /etc/openldap/certs
+TLS_CACERTDIR <%= @cacert_dir %>
+<% else                                    -%>
+TLS_CACERTDIR   /etc/openldap/certs
+<% end                                     -%>
+
+<%
+if @encrypted == 'yes'
+  if @servers.length > 1
+    # AB: client connections want encyrption, but since we
+    # have more than one LDAP server, we are configuring the
+    # client on an LDAP server itself, or on an LVS server.
+    # Since, the certificate will never correspond with the
+    # actual hostname in a LVS setup, we allow obtaining of
+    # a certificate, but we do not really check it.
+    tls_reqcert_level = 'allow'
+  else
+    tls_reqcert_level = 'demand'
+  end -%>
+TLS_REQCERT <%= tls_reqcert_level %>
+<% end -%>

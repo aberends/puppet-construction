@@ -1,0 +1,67 @@
+LVS SERVER
+
+The lvs::ldap::server class use cases:
+* LVS for LDAP server
+* LVS for LDAP server with ssl
+
+What do the different use cases mean?
+
+The "LVS for LDAP server" installs the LVS software and
+configures it with the provided parameters. The result is a
+LVS load-balancer for LDAP without encryption support.
+
+The "LVS for LDAP server with ssl" installs the LVS software
+and configures it with the provided parameters. The result
+is a LVS load-balancer for LDAP with encryption support.
+
+
+LVS FOR LDAP SERVER
+
+/var/lib/hiera/depzones/dmsat1/hosts/lvs1.dmsat1.org.yaml :
+/var/lib/hiera/depzones/dmsat1/hosts/lvs2.dmsat1.org.yaml :
+* backup = '192.168.5.17'
+  Configure the backup LVS node.
+* encrypted = 'no'
+  This ensures that the LVS nodes don't configure port 636
+  in the lvs.cf
+* nmask = '255.255.255.0'
+  This configures the network mask belonging to the vip
+* primary = '192.168.5.16'
+  Configure the primary LVS node.
+* servers = ['192.168.5.15', '192.168.5.18']
+  The real LDAP servers to load balance.
+* vip = '192.168.5.13'
+* vmac = 'em1:1'
+  The em1 indicates the name of the ethernet device. The
+  ':1" indicates the first virtual ethernet device on em1.
+
+To test:
+cp /usr/share/doc/puppet-baseinfra/lvs_ldap_server/lvs1.dmsat1.org.yaml /var/lib/hiera/depzones/dmsat1/hosts
+cp /usr/share/doc/puppet-baseinfra/lvs_ldap_server/lvs2.dmsat1.org.yaml /var/lib/hiera/depzones/dmsat1/hosts
+
+puppet apply -e 'include lvs::ldap::server'
+
+
+LVS FOR LDAP SERVER WITH SSL
+
+/var/lib/hiera/depzones/dmsat1/hosts/lvs1.dmsat1.org.yaml :
+/var/lib/hiera/depzones/dmsat1/hosts/lvs2.dmsat1.org.yaml :
+* backup = '192.168.5.17'
+  Configure the backup LVS node.
+* nmask = '255.255.255.0'
+  This configures the network mask belonging to the vip
+* primary = '192.168.5.16'
+  Configure the primary LVS node.
+* servers = ['192.168.5.15', '192.168.5.18']
+  The real LDAP servers to load balance.
+* vip = '192.168.5.13'
+* vmac = 'em1:1'
+  The em1 indicates the name of the ethernet device. The
+  ':1" indicates the first virtual ethernet device on em1.
+
+To test:
+cp /usr/share/doc/puppet-baseinfra/lvs_ldap_server_ssl/lvs1.dmsat1.org.yaml /var/lib/hiera/depzones/dmsat1/hosts
+cp /usr/share/doc/puppet-baseinfra/lvs_ldap_server_ssl/lvs2.dmsat1.org.yaml /var/lib/hiera/depzones/dmsat1/hosts
+
+puppet apply -e 'include lvs::ldap::server'
+

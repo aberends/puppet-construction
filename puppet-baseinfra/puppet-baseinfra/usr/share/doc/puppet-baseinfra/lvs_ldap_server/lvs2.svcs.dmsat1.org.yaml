@@ -1,0 +1,15 @@
+---
+
+lvs::ldap::params::backup:    '192.168.5.17'
+lvs::ldap::params::encrypted: 'no'
+lvs::ldap::params::nmask:     '255.255.255.0'
+lvs::ldap::params::primary:   '192.168.5.16'
+lvs::ldap::params::servers:
+ - '192.168.5.15'
+ - '192.168.5.18'
+lvs::ldap::params::vip:       '192.168.5.13'
+lvs::ldap::params::vmac:      'em1:1'
+
+ldap::params::servers:
+ - "ds2.dmsat1.org"
+ - "ds3.dmsat1.org"

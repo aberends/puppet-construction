@@ -1,0 +1,2 @@
+ds::parameter1: "ds platform class parameter 1"
+ds::parameter2: "%{::ds::parameter1}/aap"

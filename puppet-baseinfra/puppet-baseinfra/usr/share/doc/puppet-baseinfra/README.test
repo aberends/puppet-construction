@@ -1,0 +1,10 @@
+To test how the 8 layer model, regarding Hiera key lookups,
+functions, we have created a Puppet module called test.
+
+In the local test directory, a YAML structure is presented
+which can be installed on an empty node. Empty, with respect
+to Puppet provisioning.
+
+Copy the structure from the test subdirectory:
+# cd test
+# rsync -rR * /var/lib/hiera

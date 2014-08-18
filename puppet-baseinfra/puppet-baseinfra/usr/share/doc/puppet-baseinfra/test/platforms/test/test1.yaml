@@ -1,0 +1,10 @@
+---
+
+test::params::par1: 'platforms/test/test1.yaml'
+test::params::par2: 'platforms/test/test1.yaml'
+test::params::par3: 'platforms/test/test1.yaml'
+test::params::par4: 'platforms/test/test1.yaml'
+test::params::par5: 'platforms/test/test1.yaml'
+test::params::par6: 'platforms/test/test1.yaml'
+#test::params::par7: 'platforms/test/test1.yaml'
+#test::params::par8: 'platforms/test/test1.yaml'

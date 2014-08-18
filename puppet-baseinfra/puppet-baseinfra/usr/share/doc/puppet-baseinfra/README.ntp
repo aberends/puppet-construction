@@ -1,0 +1,89 @@
+NTP
+
+The ldap::ntp class use cases:
+* NTP server for clients
+* NTP server acting as a stratum 2 server
+* NTP server acting as a stratum 1 server (hw clock only)
+
+What do the different use cases mean?
+
+The "NTP server for clients" installs the NTP server
+software and configures it with the provided parameters. The
+result is an NTP server used as an NTP client to keep the
+target node in sync. It uses the given stratum 2 servers to
+obtain the NTP time from.
+
+The "NTP server acting as a stratum 2 server" installs the
+NTP server software and configures it with the provided
+parameters. The result is an NTP server used as an NTP
+stratum 2 server to provide the NTP time in the network. The
+NTP clients use these servers to get the NTP time from.
+
+The "NTP server acting as a stratum 1 server" installs the
+NTP server software and configures it as an NTP server that
+only syncs with the hardware clock on the machine. It is
+used to simulate stratum 1 devices. This can be usefull in a
+test setup.
+
+
+NTP SERVER FOR CLIENTS
+
+/var/lib/hiera/depzones/dmsat1.yaml :
+* servers = [
+    'ntp1.dmsat1.org',
+    'ntp2.dmsat1.org',
+    'ntp3.dmsat1.org'
+  ]
+  The NTP server on the client configures 3 NTP servers to
+  obtain the NTP time from.
+
+To test:
+cp /usr/share/doc/puppet-baseinfra/ntp_for_clients/dmsat1.yaml /var/lib/hiera/depzones/
+
+puppet apply -e 'include ntp::ntp'
+
+
+NTP SERVER ACTING AS A STRATUM 2 SERVER
+
+/var/lib/hiera/depzones/dmsat1.yaml :
+* servers = [
+    'ntp1.dmsat1.org',
+    'ntp2.dmsat1.org',
+    'ntp3.dmsat1.org'
+  ]
+  The NTP server on the stratum 2 server configures 2 out of
+  3 NTP servers as peers to obtain the NTP time from. The
+  one that is not configures is the local node. An NTP
+  server cannot peer with itself.
+
+/var/lib/hiera/depzones/dmsat1/hosts/ntp1.dmsat1.org.yaml :
+* clocks = [
+    'ant1.dmsat1.org',
+    'ant2.dmsat1.org',
+  ]
+  The stratum 2 NTP server configures the clocks as its
+  stratum 1 servers.
+* type = 'server'
+  We want the NTP software to behave as a server and sync to
+  the stratum1 clocks.
+
+To test:
+cp /usr/share/doc/puppet-baseinfra/ntp_for_servers/dmsat1.yaml /var/lib/hiera/depzones/
+cp /usr/share/doc/puppet-baseinfra/ntp_for_servers/ntp1.dmsat1.org.yaml /var/lib/hiera/depzones/dmsat1/hosts
+
+puppet apply -e 'include ntp::ntp'
+
+
+NTP SERVER ACTING AS A STRATUM 1 SERVER
+
+/var/lib/hiera/depzones/dmsat1.yaml :
+* servers must not be specified!
+
+/var/lib/hiera/depzones/dmsat1/hosts/ant1.dmsat1.org.yaml :
+* type = 'clock'
+  Indicate that we are an NTP clock.
+
+To test:
+cp /usr/share/doc/puppet-baseinfra/ntp_for_clocks/ant1.dmsat1.org.yaml /var/lib/hiera/depzones/dmsat1/hosts
+
+puppet apply -e 'include ntp::ntp'

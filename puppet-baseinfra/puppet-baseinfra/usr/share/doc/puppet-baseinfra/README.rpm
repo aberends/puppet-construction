@@ -1,0 +1,22 @@
+RPM DEVELOPMENT MACHINE
+
+The dev::rpm class use case:
+* node to build custom RPM's on
+
+What is the purpose of this node?
+
+The node is automatically configured. The GPG key can be
+automatically placed on the node to make it possible for
+everybody to sign RPM's with the same GPG key.
+
+
+RPM DEVELOPMENT NODE
+
+/var/lib/hiera/depzones/dmsat1/hosts/rpm1.core.dmsat1.org :
+* gpg_sign_key = '<base64 encoded string of GPG private key>'
+  Provide the GPG private key to sign the RPM's with.
+
+To test:
+cp /usr/share/doc/puppet-baseinfra/rpm_dev_node/dmsat1.yaml /var/lib/hiera/depzones/
+
+puppet apply -e 'include dev::rpm'

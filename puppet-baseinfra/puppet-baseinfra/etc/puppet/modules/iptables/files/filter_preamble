@@ -1,0 +1,11 @@
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:RH-Firewall-1-INPUT - [0:0]
+-A INPUT -j RH-Firewall-1-INPUT
+-A FORWARD -j RH-Firewall-1-INPUT
+-A RH-Firewall-1-INPUT -i lo -j ACCEPT
+-A RH-Firewall-1-INPUT -m icmp -p icmp --icmp-type any -j ACCEPT
+-A RH-Firewall-1-INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A RH-Firewall-1-INPUT -m tcp -p tcp -m state --state NEW --dport 22 -m comment --comment "SSH" -j ACCEPT

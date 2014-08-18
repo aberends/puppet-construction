@@ -1,0 +1,132 @@
+# AB: we use the man pages of NTP, see man ntp.conf, and the
+# website: http://support.ntp.org/bin/view/Support/WebHome.
+
+# AB: this is the configuration for the stratum 2 NTP
+# clients. Stratum 0 is the reference time (UTC of 300
+# atomic clocks, which are connected). Stratum 1 are our
+# special NTP servers with a local clock, connected via
+# Satellite or Radio to stratum 0. Stratum 2 NTP servers
+# connect to the stratum 1 servers and are peered with other
+# stratum 2 servers.
+
+# AB: we don't use a file with leap seconds since it
+# requires the use of the autokey command which needs the
+# cryptography of NTP being set up. The NTP server will
+# adapt to the timeservers, thus overcoming the missed leap
+# seconds.
+
+# Permit time synchronization with our time source, but do not
+# permit the source to query or modify the service on this system.
+restrict default kod nomodify notrap nopeer noquery
+restrict -6 default kod nomodify notrap nopeer noquery
+
+# AB: restrict is the general purpose restriction list of
+# ntpd. ntpd sorts it in two columns: IP and IP mask in
+# ascending order. So: 192.168.0.0/255.255.255.0 and
+# 192.168.0.0/255.255.0.0 are sorted as:
+# 192.168.0.0/255.255.0.0 and 192.168.0.0/255.255.255.0. If
+# a masked source IP address matches the masked network
+# address, then the last match determines the restriction
+# rules. For example: source IP 192.168.0.1 matches first
+# 192.168/16, and then 192.168.0/24, so the last
+# (192.168.0/24) determines the restrictions. restrict
+# default means: restrict 0.0.0.0/0.0.0.0, so everything is
+# matched.
+
+# The restriction options are (man ntp_acc):
+# * ignore, not used, everything from the client is ignored
+# * kod, kiss of death to shut down a misbehaving client
+# * limited, not used
+# * lowpriotrap, not used since not understood
+# * nomodify, prohibit ntpq and ntpdc to modify the state of
+#   ntpd
+# * noquery, prohibit ntpq and ntpdc to query ntpd
+# * nopeer, no new peer association can be started, only the
+#   configured ones
+# * noserve, not used
+# * notrap, used for remote event loggers
+# * notrust, not used, only for cryptographic associations
+# * ntpport, not used
+# * version, only version 4
+
+# Permit all access over the loopback interface.  This could
+# be tightened as well, but to do so would effect some of
+# the administrative functions.
+restrict 127.0.0.1 
+restrict -6 ::1
+
+# Hosts on local network are less restricted.
+#restrict 192.168.1.0 mask 255.255.255.0 nomodify notrap
+
+# Use public servers from the pool.ntp.org project.
+# Please consider joining the pool (http://www.pool.ntp.org/join.html).
+# AB: default time servers commented out:
+#server 0.rhel.pool.ntp.org
+#server 1.rhel.pool.ntp.org
+#server 2.rhel.pool.ntp.org
+# AB: a list of all configuration command options is given
+# (man ntp.conf). The commands are:
+# * server
+# * peer
+# * broadcast
+# * manycastclient
+# The command options are:
+# * autokey, we don't use cryptography, irrelevant
+# * burst, not recommended with minpoll=6 and maxpoll=10
+# * iburst, recommended for the server command
+# * key, we don't use cryptography, irrelevant
+# * minpoll, default value of 6 used
+# * maxpoll, default value of 10 used
+# * noselect, not used
+# * preempt, not used
+# * prefer, not used, maybe later, depending on the
+#   geographic distribution of the time servers and the node
+#   using this configuration file
+# * not used, too complicated to understand
+# * not used, only for broad- and manycast
+# * version, defaults to 4, which is good
+
+<% @clocks.each do |clock|         -%>
+server <%= clock %> iburst
+restrict <%= clock %> notrap nopeer noquery
+<% end                             -%>
+
+# AB: we added the peer directives:
+<% @servers.each do |peer|         -%>
+<%   next if peer == @fqdn         -%>
+peer <%= peer %>
+restrict <%= peer %> notrap nopeer noquery
+<% end                             -%>
+
+#broadcast 192.168.1.255 key 42   # broadcast server
+#broadcastclient      # broadcast client
+#broadcast 224.0.1.1 key 42   # multicast server
+#multicastclient 224.0.1.1    # multicast client
+#manycastserver 239.255.254.254   # manycast server
+#manycastclient 239.255.254.254 key 42  # manycast client
+
+# Undisciplined Local Clock. This is a fake driver intended for backup
+# and when no outside source of synchronized time is available. 
+# AB: we uncommented the following two lines
+server  127.127.1.0 # local clock
+fudge 127.127.1.0 stratum 10  
+
+# Drift file.  Put this in a directory which the daemon can write to.
+# No symbolic links allowed, either, since the daemon updates the file
+# by creating a temporary in the same directory and then rename()'ing
+# it to the file.
+driftfile /var/lib/ntp/drift
+
+# Key file containing the keys and key identifiers used when operating
+# with symmetric key cryptography. 
+# AB: we commented out the following line:
+#keys /etc/ntp/keys
+
+# Specify the key identifiers which are trusted.
+#trustedkey 4 8 42
+
+# Specify the key identifier to use with the ntpdc utility.
+#requestkey 8
+
+# Specify the key identifier to use with the ntpq utility.
+#controlkey 8

@@ -1,0 +1,35 @@
+---
+
+## module ldap
+ldap::params::encrypted:   'no'
+ldap::params::ldap_domain: 'dmsat1.org'
+ldap::params::servers:
+ - 'ds2.dmsat1.org'
+ - 'ds3.dmsat1.org'
+
+## custom resource type rhn_channel
+sat_user:   'example'
+sat_passwd: 'redhat'
+
+## module support
+support6::params::rpms:
+ - bind-utils
+ - biosdevname
+ - dmidecode
+ - man
+ - mlocate
+ - nc
+ - openssh-clients
+ - parted
+ - rsync
+ - screen
+ - sg3_utils
+ - sos
+ - strace
+ - sysfsutils
+ - sysstat
+ - tcpdump
+ - telnet
+ - tree
+ - vim-enhanced
+ - wget

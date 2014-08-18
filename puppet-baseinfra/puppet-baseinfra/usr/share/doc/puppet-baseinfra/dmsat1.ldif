@@ -1,0 +1,51 @@
+# posix groups, dmsat1.org
+dn: ou=posix groups,dc=dmsat1,dc=org
+ou: posix groups
+objectClass: top
+objectClass: organizationalunit
+
+# admins, posix groups, dmsat1.org
+dn: cn=admins,ou=posix groups,dc=dmsat1,dc=org
+cn: admins
+gidNumber: 1000
+objectClass: top
+objectClass: posixgroup
+
+# smit, people, dmsat1.org
+dn: uid=smit,ou=people,dc=dmsat1,dc=org
+givenName: Jan
+uid: smit
+sn: Smit
+cn: Jan Smit
+homeDirectory: /net/d21sw1.dmsat1.org/export/homes/smit
+userPassword:: e1NTSEF9emlROUo1dmhROVdBbk1DWEFvK2l1ZVAyRCtCVTRGdmx6VEErTGc9PQ=
+ =
+uidNumber: 1014
+gidNumber: 1000
+gecos: Jan Smit
+loginShell: /bin/bash
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetorgperson
+objectClass: posixAccount
+
+# jansen, people, dmsat1.org
+dn: uid=jansen,ou=people,dc=dmsat1,dc=org
+givenName: Piet
+uid: jansen
+sn: Jansen
+cn: Piet Jansen
+homeDirectory: /net/d21sw1.dmsat1.org/export/homes/jansen
+userPassword:: e1NTSEF9emlROUo1dmhROVdBbk1DWEFvK2l1ZVAyRCtCVTRGdmx6VEErTGc9PQ=
+ =
+uidNumber: 1015
+gidNumber: 1000
+gecos: Piet Jansen
+loginShell: /bin/bash
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetorgperson
+objectClass: posixAccount
+

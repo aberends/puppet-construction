@@ -1,0 +1,32 @@
+[General]
+FullMachineName = <%= @fqdn %>
+SuiteSpotUserID = nobody
+SuiteSpotGroup = nobody
+AdminDomain = <%= @ldap_domain %>
+ConfigDirectoryAdminID = <%= @server_admin %>
+ConfigDirectoryAdminPwd = <%= @server_admin_pwd %>
+ConfigDirectoryLdapURL = ldap://ds.<%= @ldap_domain %>:389/o=NetscapeRoot
+
+[slapd]
+SlapdConfigForMC = Yes
+UseExistingMC = 0
+ServerPort = 389
+ServerIdentifier = ds
+<%
+a = @ldap_domain.split('.')
+a.each_with_index {|x, i|
+  a[i] = "dc=#{x}"
+} # end of each
+-%>
+Suffix = <%= a.join(',') %>
+RootDN = <%= @root_dn %>
+RootDNPwd = <%= @root_dn_pwd %>
+ds_bename = exampleDB
+AddSampleEntries = No
+
+[admin]
+Port = 9830
+ServerIpAddress = <%= @ipaddress %>
+ServerAdminID = <%= @server_admin %>
+ServerAdminPwd = <%= @server_admin_pwd %>
+

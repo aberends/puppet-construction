@@ -1,0 +1,17 @@
+VERSION=<%= @proxy_version %>
+TRACEBACK_EMAIL=root@<%= @fqdn %>
+USE_SSL=Y
+HTTP_PROXY=''
+SSL_ORG=<%= @organization %>
+SSL_ORGUNIT=<%= @organizational_unit %>
+SSL_COMMON=<%= @fqdn %>
+SSL_CITY=<%= @locality %>
+SSL_STATE=<%= @state %>
+SSL_COUNTRY=<%= @country_code %>
+SSL_EMAIL=root@<%= @fqdn %>
+SSL_CNAME_ASK=''
+SSL_PASSWORD=<%= @cakey_passwd %>
+INSTALL_MONITORING=N
+POPULATE_CONFIG_CHANNEL=Y
+RHN_USER=<%= @sat_user %>
+RHN_PASSWORD=<%= @sat_passwd %>

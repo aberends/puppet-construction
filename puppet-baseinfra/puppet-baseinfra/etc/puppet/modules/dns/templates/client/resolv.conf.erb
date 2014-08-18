@@ -1,0 +1,9 @@
+<% if not @domain.empty?     -%>
+domain dmsat1.org 
+<% end                       -%>
+<% if not @search.empty?     -%>
+search dmsat1.org 
+<% end                       -%>
+<% @servers.each do |server| -%>
+nameserver <%= server %>
+<% end                       -%>

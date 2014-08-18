@@ -1,0 +1,187 @@
+LDAP SERVER
+
+The ldap::server class use cases:
+* basic LDAP server
+* LDAP server with ssl
+* LDAP server with ssl and mmr
+* LDAP server with ssl, mmr and ldap_vname
+
+What do the different use cases mean?
+
+The "basic LDAP server" installs the LDAP server software
+and configures it with the provided parameters. The result
+is a standalone LDAP server without encryption support and
+without multimaster replication support. The client
+configuration is done without encryption support.
+
+The "basic LDAP server with ssl" installs the LDAP server
+software and configures it with the provided parameters. On
+top of that, it configures SSL support on the LDAP server.
+The result is a standalone LDAP server with encryption
+support, but without multimaster replication support. The
+client configuration is done with encryption support.
+
+
+BASIC LDAP SERVER
+
+/var/lib/hiera/depzones/dmsat1.yaml :
+* encrypted = 'no'
+  This ensures that clients don't use port 636 or start TLS
+  on port 389. No CA certificate is needed and no hashlink
+  is installed.
+* ldap_domain = 'dmsat1.org'
+  This is the DIT (Directory Information Tree) suffix. So,
+  all client data is stored under dc=dmsat1,dc=org.
+* servers = ['ds2.dmsat1.org', 'ds3.dmsat1.org']
+  The client configuration files configure 2 LDAP servers to
+  send their requests to.
+
+/var/lib/hiera/depzones/dmsat1/hosts/ds2.dmsat1.org.yaml :
+* mmr = 'no'
+  Switch off multimaster replication configuration and
+  generation of trigger scripts.
+* rhn_channel = 'example-epel-6u5-1_0'
+  The software channel to register to, to obtain the 389
+  directory server (LDAP) packages.
+* root_dn_pwd = 'redhat123'
+  The password of cn=Directory Manager
+* server_admin_pwd = 'redhat'
+  The password of the administration console.
+* ssl = 'no'
+  Switch off ssl support
+* type = 'server'
+  Indicate that we are an LDAP server.
+
+To test:
+cp /usr/share/doc/puppet-baseinfra/basic_ldap_server/dmsat1.yaml /var/lib/hiera/depzones/
+cp /usr/share/doc/puppet-baseinfra/basic_ldap_server/ds2.dmsat1.org.yaml /var/lib/hiera/depzones/dmsat1/hosts
+
+puppet apply -e 'include ldap::server'
+
+
+LDAP SERVER WITH SSL
+
+/var/lib/hiera/depzones/dmsat1.yaml :
+* cacert_value = '<base64 encoded string of CA certificate>'
+  This certificate is needed by the clients to verify the
+  authenticity of the LDAP server.
+* ldap_domain = 'dmsat1.org'
+  This is the DIT (Directory Information Tree) suffix. So,
+  all client data is stored under dc=dmsat1,dc=org.
+* servers = ['ds2.dmsat1.org', 'ds3.dmsat1.org']
+  The client configuration files configure 2 LDAP servers to
+  send their requests to.
+
+/var/lib/hiera/depzones/dmsat1/hosts/ds2.dmsat1.org.yaml :
+* capem = '<base64 encoded string of CA keypair>'
+  This keypair is needed to sign the server certificate
+  with.
+* mmr = 'no'
+  Switch off multimaster replication configuration and
+  generation of trigger scripts.
+* rhn_channel = 'example-epel-6u5-1_0'
+  The software channel to register to, to obtain the 389
+  directory server (LDAP) packages.
+* root_dn_pwd = 'redhat123'
+  The password of cn=Directory Manager
+* server_admin_pwd = 'redhat'
+  The password of the administration console.
+* type = 'server'
+  Indicate that we are an LDAP server.
+
+To test:
+cp /usr/share/doc/puppet-baseinfra/ldap_server_ssl/dmsat1.yaml /var/lib/hiera/depzones/
+cp /usr/share/doc/puppet-baseinfra/ldap_server_ssl/ds2.dmsat1.org.yaml /var/lib/hiera/depzones/dmsat1/hosts
+
+puppet apply -e 'include ldap::server'
+
+
+LDAP SERVER WITH SSL AND MMR
+
+/var/lib/hiera/depzones/dmsat1.yaml :
+* cacert_value = '<base64 encoded string of CA certificate>'
+  This certificate is needed by the clients to verify the
+  authenticity of the LDAP server.
+* ldap_domain = 'dmsat1.org'
+  This is the DIT (Directory Information Tree) suffix. So,
+  all client data is stored under dc=dmsat1,dc=org.
+* servers = ['ds2.dmsat1.org', 'ds3.dmsat1.org']
+  The client configuration files configure 2 LDAP servers to
+  send their requests to.
+
+/var/lib/hiera/depzones/dmsat1/hosts/ds2.dmsat1.org.yaml :
+/var/lib/hiera/depzones/dmsat1/hosts/ds3.dmsat1.org.yaml :
+* capem = '<base64 encoded string of CA keypair>'
+  This keypair is needed to sign the server certificate
+  with.
+* rhn_channel = 'example-epel-6u5-1_0'
+  The software channel to register to, to obtain the 389
+  directory server (LDAP) packages.
+* root_dn_pwd = 'redhat123'
+  The password of cn=Directory Manager
+* server_admin_pwd = 'redhat'
+  The password of the administration console.
+* type = 'server'
+  Indicate that we are an LDAP server.
+
+To test:
+cp /usr/share/doc/puppet-baseinfra/ldap_server_ssl_mmr/dmsat1.yaml /var/lib/hiera/depzones/
+cp /usr/share/doc/puppet-baseinfra/ldap_server_ssl_mmr/ds2.dmsat1.org.yaml /var/lib/hiera/depzones/dmsat1/hosts
+cp /usr/share/doc/puppet-baseinfra/ldap_server_ssl_mmr/ds3.dmsat1.org.yaml /var/lib/hiera/depzones/dmsat1/hosts
+
+On both nodes:
+puppet apply -e 'include ldap::server'
+
+Then, on either one of the LDAP servers (ds2 or ds3), run:
+start-replication.sh
+
+
+LDAP SERVER WITH SSL AND MMR BEHIND LVS
+
+/var/lib/hiera/depzones/dmsat1.yaml :
+* cacert_value = '<base64 encoded string of CA certificate>'
+  This certificate is needed by the clients to verify the
+  authenticity of the LDAP server.
+* ldap_domain = 'dmsat1.org'
+  This is the DIT (Directory Information Tree) suffix. So,
+  all client data is stored under dc=dmsat1,dc=org.
+* servers = ['ds0.dmsat1.org']
+  The client configuration files configure the LDAP virtual
+  service name to send their requests to.
+
+/var/lib/hiera/depzones/dmsat1/hosts/ds2.dmsat1.org.yaml :
+/var/lib/hiera/depzones/dmsat1/hosts/ds3.dmsat1.org.yaml :
+* capem = '<base64 encoded string of CA keypair>'
+  This keypair is needed to sign the server certificate
+  with.
+* rhn_channel = 'example-epel-6u5-1_0'
+  The software channel to register to, to obtain the 389
+  directory server (LDAP) packages.
+* ldap_vip = 192.168.5.13
+  The virtual IP of the LDAP service on the LVS load
+  balancers.
+* ldap_vname = ds0.dmsat1.org
+  The virtual name of the LDAP service on the LVS load
+  balancers. In DNS it corresponds to ldap_vip
+* root_dn_pwd = 'redhat123'
+  The password of cn=Directory Manager
+* server_admin_pwd = 'redhat'
+  The password of the administration console.
+* servers = ['ds2.dmsat1.org', 'ds3.dmsat1.org']
+  The client configuration files on the LDAP and LVS nodes
+  configure 2 LDAP servers to send their requests to.
+* type = 'server'
+  Indicate that we are an LDAP server.
+
+To test:
+cp /usr/share/doc/puppet-baseinfra/ldap_server_ssl_mmr_lvs/dmsat1.yaml /var/lib/hiera/depzones/
+cp /usr/share/doc/puppet-baseinfra/ldap_server_ssl_mmr_lvs/ds2.dmsat1.org.yaml /var/lib/hiera/depzones/dmsat1/hosts
+cp /usr/share/doc/puppet-baseinfra/ldap_server_ssl_mmr_lvs/ds3.dmsat1.org.yaml /var/lib/hiera/depzones/dmsat1/hosts
+
+On both nodes:
+puppet apply -e 'include ldap::server'
+
+Then, on either one of the LDAP servers (ds2 or ds3), run:
+start-replication.sh
+
+

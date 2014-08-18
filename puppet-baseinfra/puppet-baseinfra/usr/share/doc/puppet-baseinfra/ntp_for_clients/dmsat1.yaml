@@ -1,0 +1,5 @@
+---
+
+ntp::params::servers:
+ - 'ntp1.dmsat1.org'
+ - 'ntp2.dmsat1.org'

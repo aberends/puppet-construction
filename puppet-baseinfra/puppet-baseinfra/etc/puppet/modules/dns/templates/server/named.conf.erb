@@ -1,0 +1,124 @@
+/*
+  The Red Hat sample named.conf is followed. The directory
+  structure is kept similar.
+ */
+
+options {
+  /*
+    Check names following RFC 952 and RFC 1123. The master
+    has strict checking. Incorrect names make the nameserver
+    fail. The slaves receive the names from the master,
+    hence those names are not checked.
+   */
+  check-names master fail;
+  check-names slave ignore;
+  /*
+    Always listen to the production IP and the loopback IP.
+   */
+  listen-on port 53 {
+    <%= @ipaddress %>;
+    127.0.0.1;
+  };
+
+  /*
+    The working directory is /var/named, relative to /.
+    Since we are in a chroot environment of
+    /var/named/chroot, the working directory is
+    /var/named/chroot/var/named. The other paths are all
+    relative. The dump-file is created with rndc dumpdb
+    --all, or one of the other options. The statistics file
+    is created during operation. The memory statistics are
+    only created after a named stop and only if
+    memstatistics is set to yes or if named is started with
+    -m.
+   */
+  directory          "/var/named";
+  dump-file          "data/cache_dump.db";
+  statistics-file    "data/named_stats.txt";
+  //memstatistics      yes;
+  memstatistics-file "data/named_mem_stats.txt";
+  /*
+    All hosts can query this nameserver. This nameserver
+    will present a final answer: the resolved information or
+    an error. Hence, recursion must be on.
+   */
+  allow-query { any; };
+  recursion   yes;
+};
+
+/*
+  Allowable log levels:
+  critical
+  error
+  warning
+  notice
+  info
+  debug [level]
+  dynamic
+ */
+
+/*
+  Allowable log categories:
+  client
+  config
+  database
+  default (all categories except queries)
+  delegation-only
+  dispatch
+  dnssec
+  general
+  lame-servers
+  network
+  notify
+  queries
+  resolver
+  security
+  unmatched
+  update
+  update-security
+  xfer-in
+  xfer-out
+ */
+
+logging {
+  channel default_debug {
+    file           "/var/log/named.log" versions 5 size 5m;
+    severity       dynamic;
+    print-time     yes;
+    print-severity yes;
+    print-category yes;
+  };
+
+  category default { default_debug; };
+  category queries { default_debug; };
+};
+
+/*
+  Enable XML statistics via HTTP on port 8053, wich is used
+  to tell that it is HTTP traffic, 80, and DNS, 53.
+ */
+statistics-channels {
+  inet * port 8053 allow { any; };
+};
+
+/*
+  The '.' represents all other zones. We resolve the queries
+  for our clients and cache them.
+ */
+zone "." IN {
+  type hint;
+  file "/var/named/named.ca";
+};
+
+/*
+  These are zones that contain definitions for all the
+  localhost names and addresses, as recommended in RFC1912 -
+  these names should not leak to the other nameservers.
+ */
+include "/etc/named.rfc1912.zones";
+
+/*
+  Our custom zones come from named.custom.zones. This keeps
+  this file clean.
+ */
+include "/etc/named.custom.zones";

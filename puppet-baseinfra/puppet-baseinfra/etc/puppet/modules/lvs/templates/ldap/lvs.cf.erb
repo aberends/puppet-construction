@@ -1,0 +1,64 @@
+serial_no = 1
+primary = <%= @primary %>
+<% if not @primary_private.empty? -%>
+primary_private = <%= @primary_private %>
+<% end                            -%>
+service = lvs
+backup_active = 1
+backup = <%= @backup %>
+<% if not @backup_private.empty? -%>
+backup_private = <%= @backup_private %>
+<% end                            -%>
+heartbeat = 1
+heartbeat_port = 539
+keepalive = 6
+deadtime = 18
+network = direct
+debug_level = NONE
+monitor_links = 1
+virtual ldap {
+     active = 1
+     address = <%= @vip %> <%= @vmac %>
+     vip_nmask = <%= @nmask %>
+     port = 389
+     use_regex = 0
+     expect = "OK"
+     send_program = "<%= @check_dir %>/<%= @check_ds %> %h"
+     load_monitor = none
+     scheduler = wlc
+     protocol = tcp
+     timeout = 6
+     reentry = 15
+     quiesce_server = 0
+<% @servers.each_with_index do |server, i| -%>
+     server server<%= i %> {
+         address = <%= server %>
+         active = 1
+         weight = 1
+     }
+<% end                                    -%>
+}
+<% if @encrypted == 'yes'                 -%>
+virtual ldaps {
+     active = 1
+     address = <%= @vip %> <%= @vmac %>
+     vip_nmask = <%= @nmask %>
+     port = 636
+     use_regex = 0
+     expect = "OK"
+     send_program = "<%= @check_dir %>/<%= @check_ds_ssl %> %h"
+     load_monitor = none
+     scheduler = wlc
+     protocol = tcp
+     timeout = 6
+     reentry = 15
+     quiesce_server = 0
+<%   @servers.each_with_index do |server, i| -%>
+     server server<%= i %> {
+         address = <%= server %>
+         active = 1
+         weight = 1
+     }
+<%   end                                    -%>
+}
+<% end                                      -%>

@@ -1,0 +1,74 @@
+dn: cn=changelog5,cn=config
+changetype: add
+objectClass: top
+objectClass: extensibleObject
+cn: changelog5
+<%
+data_path = @slapd_path.sub(/^\/etc/, "/var/lib")
+-%>
+nsslapd-changelogdir: <%= data_path %>/changelogdb
+
+dn: cn=replication manager,cn=config
+changetype: add
+objectClass: inetorgperson
+objectClass: person
+objectClass: top
+cn: replication manager
+sn: RM
+userPassword: <%= @root_dn_pwd %>
+passwordExpirationTime: 20380119031407Z
+nsIdleTimeout: 0
+
+
+<%
+a = @ldap_domain.split('.')
+b = []
+c = []
+a.each_with_index {|x, i|
+  b[i] = "dc\\3D#{x}"
+  c[i] = "dc=#{x}"
+} # end of each
+escaped_db_suffix = b.join('\2C')
+db_suffix = c.join(',')
+-%>
+dn: cn=replica,cn=<%= escaped_db_suffix %>,cn=mapping tree,cn=config
+changetype: add
+objectClass: nsDS5Replica
+objectClass: top
+nsDS5ReplicaRoot: <%= db_suffix %>
+nsDS5ReplicaType: 3
+nsDS5Flags: 1
+nsDS5ReplicaId: <%= @ipaddress.split(".").last %>
+nsds5ReplicaPurgeDelay: 604800
+nsDS5ReplicaBindDN: cn=replication manager,cn=config
+cn: replica
+
+dn: cn=mmr,cn=replica,cn=<%= escaped_db_suffix %>,cn=mapping tree,cn=config
+changetype: add
+objectClass: top
+objectClass: nsDS5ReplicationAgreement
+description: multimaster replication agreement
+cn: mmr
+nsDS5ReplicaRoot: <%= db_suffix %>
+<%
+replicas = @servers.dup
+replicas.delete(@fqdn)
+if replicas.length != 1
+  abort("ERROR: #{file}: more than 1 replica")
+end
+-%>
+nsDS5ReplicaHost: <%= replicas[0] %>
+nsDS5ReplicaPort: 389
+nsDS5ReplicaBindDN: cn=replication manager,cn=config
+nsDS5ReplicaTransportInfo: LDAP
+nsDS5ReplicaBindMethod: SIMPLE
+nsDS5ReplicaCredentials: {DES}DpF/P2+MdArjYYzbfXpQ1g==
+nsds5replicaLastUpdateStart: 0
+nsds5replicaLastUpdateEnd: 0
+nsds5replicaChangesSentSinceStartup:
+nsds5replicaLastUpdateStatus: -1 Incremental update has failed and requires ad
+ ministrator actionSystem error
+nsds5replicaUpdateInProgress: FALSE
+nsds5replicaLastInitStart: 0
+nsds5replicaLastInitEnd: 0
+

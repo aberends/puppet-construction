@@ -1,0 +1,10 @@
+---
+
+test::params::par1: 'base.yaml'
+test::params::par2: 'base.yaml'
+test::params::par3: 'base.yaml'
+test::params::par4: 'base.yaml'
+test::params::par5: 'base.yaml'
+test::params::par6: 'base.yaml'
+test::params::par7: 'base.yaml'
+test::params::par8: 'base.yaml'

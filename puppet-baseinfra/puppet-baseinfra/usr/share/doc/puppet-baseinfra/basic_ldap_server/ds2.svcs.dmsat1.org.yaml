@@ -1,0 +1,8 @@
+---
+
+ldap::params::mmr:              'no'
+ldap::params::rhn_channel:      'example-epel-6u5-1_0'
+ldap::params::root_dn_pwd:      'redhat123'
+ldap::params::server_admin_pwd: 'redhat'
+ldap::params::ssl:              'no'
+ldap::params::type:             'server'

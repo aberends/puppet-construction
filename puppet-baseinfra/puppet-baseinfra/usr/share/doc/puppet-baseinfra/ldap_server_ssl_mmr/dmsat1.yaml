@@ -1,0 +1,59 @@
+---
+
+## module ldap
+ldap::params::cacert_value: |
+ Bag Attributes
+     friendlyName: LDAP CA cert
+     localKeyID: 11 18 7A ED 36 47 1F 51 BB 6F F4 5E C5 58 81 0D C9 93 FC 29 
+ subject=/DC=com/DC=example/CN=LDAP CA cert
+ issuer=/DC=com/DC=example/CN=LDAP CA cert
+ -----BEGIN CERTIFICATE-----
+ MIIDGTCCAgGgAwIBAgICA+gwDQYJKoZIhvcNAQEFBQAwRTETMBEGCgmSJomT8ixk
+ ARkWA2NvbTEXMBUGCgmSJomT8ixkARkWB2V4YW1wbGUxFTATBgNVBAMTDExEQVAg
+ Q0EgY2VydDAeFw0xNDA2MjAyMDI1MTRaFw0yNDA2MjAyMDI1MTRaMEUxEzARBgoJ
+ kiaJk/IsZAEZFgNjb20xFzAVBgoJkiaJk/IsZAEZFgdleGFtcGxlMRUwEwYDVQQD
+ EwxMREFQIENBIGNlcnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDo
+ tkHeNE0KmPq6QcrdPDobWX9uLXdqjFUugkolb8ZniYrZid66gmlpe0dOjOe089Gx
+ 7DvTgaref9xhRNxRewsY8toMZswuS8JpN5jFDf+jtwOo415i6tqUstFCC/ho8oiI
+ IvJu9DcvySeammYkF5nrqkXAfOnaPyPinf0+zGmJIEfST5us8P8nSZGe4nFPRSEL
+ BSTz+4DjJpyKYByXkpzVTedY2rsppGsijivZx8fjnMptLh6T4xfoJUeifS6E688A
+ bxTxf3TNEKiOFtF4InCZ/YVWFbvss8YWYkcvyh/iNEvfLUzOd7U9YRX3kPOuIBko
+ d+M+wqYKrmqn6/kmdhE9AgMBAAGjEzARMA8GA1UdEwEB/wQFMAMBAf8wDQYJKoZI
+ hvcNAQEFBQADggEBAG5WtNf1xMhXfldVXMjfHxjZac2pqqKiKfSptSGzXuIr+Ouh
+ SbB2DgAH/93WTVDgs5U/bAQeX94TJza86nlFYxzuPhGlt86bFNfanIZPtv8CnGDe
+ HvylRZ/zgOES56eYpwSz0ZHbXI5sSJTeaVjli6jaOyP8p+D/VHF7zIQQROyoOXlr
+ sKIotUZXP3d5/2BOqkspXg9WUtBLtIsTEUeSfUCG6hirdE3aWNMmAdmFrnqj4wSd
+ 4cVgsqFX+0aY46T7BJgR26mHSheWGREv69suV6hJgJ2CyhFFBp71w5bS0Aiol6gI
+ f4KmWxZzIgVraQVjPBVjLay07LKDv7u6nI+aHqE=
+ -----END CERTIFICATE-----
+ldap::params::ldap_domain: "dmsat1.org"
+ldap::params::servers:
+ - 'ds2.dmsat1.org'
+ - 'ds3.dmsat1.org'
+
+## custom resource type rhn_channel
+sat_user:   'example'
+sat_passwd: 'redhat'
+
+## module support
+support6::params::rpms:
+ - bind-utils
+ - biosdevname
+ - dmidecode
+ - man
+ - mlocate
+ - nc
+ - openssh-clients
+ - parted
+ - rsync
+ - screen
+ - sg3_utils
+ - sos
+ - strace
+ - sysfsutils
+ - sysstat
+ - tcpdump
+ - telnet
+ - tree
+ - vim-enhanced
+ - wget

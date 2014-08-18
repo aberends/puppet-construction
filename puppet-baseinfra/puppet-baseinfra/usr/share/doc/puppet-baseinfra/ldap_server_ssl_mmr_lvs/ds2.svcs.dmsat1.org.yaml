@@ -1,0 +1,68 @@
+ldap::params::capem: |
+ Bag Attributes
+     friendlyName: LDAP CA cert
+     localKeyID: 11 18 7A ED 36 47 1F 51 BB 6F F4 5E C5 58 81 0D C9 93 FC 29 
+ Key Attributes: <No Attributes>
+ -----BEGIN ENCRYPTED PRIVATE KEY-----
+ MIIFDjBABgkqhkiG9w0BBQ0wMzAbBgkqhkiG9w0BBQwwDgQIEmgXMaksgUsCAggA
+ MBQGCCqGSIb3DQMHBAitieG2RD+aSASCBMjHnPYpzaMUhM8lX5Zv5TGofe5vT+Uc
+ W/akmmCjr/1/TsWlEctMjgvLVceEi4EYE4BaAGjE3jtNltIItOw5Qy4lYw3ZrpeS
+ nm5VxnCn8mihYJdH+cWAh1vFYUrvAom+U/zBTi7X4F8sMSb8p1vELq22vNzU3AG+
+ 8C+8y3/Ho7FYheriL6DvZahYiHzpRVNCtkAwyKIOhRrDoAW47Q79RnrcNnylnDkH
+ EL9pFTIMFXgYhZb/h/VrQ/cEYWu+Pr/se9U90StSqnKta2cGwN190+wUIE6EchSp
+ M9rh9ZNIht+967bnuEvgm9C0E+zJArwRpYNr4c3WP2+xmstlKVVKFhDpKogHdw6O
+ c7H6Oo9cHsw5OsL4Zr7V1u27U51narf2rHNBwdaKQU1UJuZ31yFRlZFJMe/aKNHR
+ QRRtBK0PwGZUnfUrpNkxULufM8ITup+hi+chdp9Z5kj/klniH3PjAiUoHTEveMYp
+ 3+rhh43/VaAfpIzXOrIUC+oTAgj6T4nulXFfGFxGJTO+EJCQq1nWRazxz6UNw9P9
+ JiLKVrefh6yHlrMp5QWvEcuFbwYKYzgIL1lP7U+M/n1l6caGTvRTpKlHEupRD1u1
+ Kv4+CBylnvhSM33CRFRIMg/kmulrMglSILZQhJetdEYOQ7I5BpNQdCSFqCGb8lg/
+ 9AzTXLBsUltp6mJrs1xBCs3iwMbx3g+IwOGjXY3e0vQlqq7tG03c3usaFWGfIowx
+ M0TbSg9spV7yR5xZfM93qxjXPyRvu1EY4IBkgox5+ZtZMm6KeVyitXVavGVj7s8j
+ Xc8iOuNBbnkp5Xnp56hP/ZMosuSNI8rmCwjaQrStsOLsp9bQzmrfUQEzbggOcwaR
+ 8iTqPsRR0f+a6qym4XGpEv5koDHmjSPu2bM0JhtcWucV4X1S0QBkk/0VtgkqTHAp
+ /wHzCZ9ov8Xwo6Po1A6/6ow04CJ2re8bN65+5dYuetDKyYIwTgnT/F4KvobUum2E
+ +KhHezLH9EOd2lBzcy+Zl2dDJTU2EYZEV6fhGyj7WSH5M5LlJBznKbFFqXgFJFCn
+ Bjgk7a1gtwr2y8mm+ffYZz3Y4kLi74PLec8KmhlDxj4M+Ib2LEu09EkR6AZbzIV5
+ uc5plXvsSK/HcyA2pFGBtYgrQSOkLrM2lfr9e77YEdRuoCxmCJfijn0l5jJiyqjA
+ cRfcUwh31zNuWi57vMGWkmQCd8TJgAp3I2A6uMIpsFUkTurtS9ypbld5+toMSs4Q
+ jgm9Amdc2CGschDp23gFmedtPuH+vZTuEE0uAe5DQqKKr/x+dpzvE0TScv7CAvO1
+ PTqKYymTovEBJKVswHAgb0h/G2PRinVlV10vUB/T+whnA2wHonHQxa9P9Hv2yVou
+ W6iIpmabIq4bNIGmXUf7Nz5hs5jzVM5NHthMwbEe9nlmJOxC0ZCtzEicO8zWIb80
+ Ks1uV1LWVYjsr2l+gQNTg+LNs6UP2kCTxBGXnMIdZRXiGJ7+DkbCtTyi1dL5tduJ
+ NmHYh051aDoJhUCH6HyeAusNNI2VP8aEeR+FsJ1QGmYS7W+ZMvYo7BN8qlkjudIc
+ COau6InhgGnC6pwPf6AG1tw2TqunacTkDKxEwNhjeAG7rQ1eyc28RcY6gk47Kabs
+ dvo=
+ -----END ENCRYPTED PRIVATE KEY-----
+ Bag Attributes
+     friendlyName: LDAP CA cert
+     localKeyID: 11 18 7A ED 36 47 1F 51 BB 6F F4 5E C5 58 81 0D C9 93 FC 29 
+ subject=/DC=com/DC=example/CN=LDAP CA cert
+ issuer=/DC=com/DC=example/CN=LDAP CA cert
+ -----BEGIN CERTIFICATE-----
+ MIIDGTCCAgGgAwIBAgICA+gwDQYJKoZIhvcNAQEFBQAwRTETMBEGCgmSJomT8ixk
+ ARkWA2NvbTEXMBUGCgmSJomT8ixkARkWB2V4YW1wbGUxFTATBgNVBAMTDExEQVAg
+ Q0EgY2VydDAeFw0xNDA2MjAyMDI1MTRaFw0yNDA2MjAyMDI1MTRaMEUxEzARBgoJ
+ kiaJk/IsZAEZFgNjb20xFzAVBgoJkiaJk/IsZAEZFgdleGFtcGxlMRUwEwYDVQQD
+ EwxMREFQIENBIGNlcnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDo
+ tkHeNE0KmPq6QcrdPDobWX9uLXdqjFUugkolb8ZniYrZid66gmlpe0dOjOe089Gx
+ 7DvTgaref9xhRNxRewsY8toMZswuS8JpN5jFDf+jtwOo415i6tqUstFCC/ho8oiI
+ IvJu9DcvySeammYkF5nrqkXAfOnaPyPinf0+zGmJIEfST5us8P8nSZGe4nFPRSEL
+ BSTz+4DjJpyKYByXkpzVTedY2rsppGsijivZx8fjnMptLh6T4xfoJUeifS6E688A
+ bxTxf3TNEKiOFtF4InCZ/YVWFbvss8YWYkcvyh/iNEvfLUzOd7U9YRX3kPOuIBko
+ d+M+wqYKrmqn6/kmdhE9AgMBAAGjEzARMA8GA1UdEwEB/wQFMAMBAf8wDQYJKoZI
+ hvcNAQEFBQADggEBAG5WtNf1xMhXfldVXMjfHxjZac2pqqKiKfSptSGzXuIr+Ouh
+ SbB2DgAH/93WTVDgs5U/bAQeX94TJza86nlFYxzuPhGlt86bFNfanIZPtv8CnGDe
+ HvylRZ/zgOES56eYpwSz0ZHbXI5sSJTeaVjli6jaOyP8p+D/VHF7zIQQROyoOXlr
+ sKIotUZXP3d5/2BOqkspXg9WUtBLtIsTEUeSfUCG6hirdE3aWNMmAdmFrnqj4wSd
+ 4cVgsqFX+0aY46T7BJgR26mHSheWGREv69suV6hJgJ2CyhFFBp71w5bS0Aiol6gI
+ f4KmWxZzIgVraQVjPBVjLay07LKDv7u6nI+aHqE=
+ -----END CERTIFICATE-----
+ldap::params::ldap_vip:         '192.168.5.13'
+ldap::params::ldap_vname:       'ds0.dmsat1.org'
+ldap::params::rhn_channel:      'example-epel-6u5-1_0'
+ldap::params::root_dn_pwd:      'redhat123'
+ldap::params::server_admin_pwd: 'redhat'
+ldap::params::servers:
+ - "ds2.dmsat1.org"
+ - "ds3.dmsat1.org"
+ldap::params::type:             'server'

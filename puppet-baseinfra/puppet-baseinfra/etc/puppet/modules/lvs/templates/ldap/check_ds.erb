@@ -1,0 +1,21 @@
+#!/bin/bash
+
+##################################################################
+# Check prog for piranha DS services
+##################################################################
+HOST=$1
+<%
+a = @ldap_domain.split('.')
+a.each_with_index { |x, i|
+  a[i] = "dc=#{x}"
+} # end of each
+b = a.join(',')
+-%>
+/usr/bin/ldapsearch -x -H ldap://$HOST -b "<%= b %>" -s one "objectclass=groupofuniquenames" > /dev/null 2>&1
+TEST=$?
+
+if [ "$TEST" != "0" ]; then
+  echo "FAIL"
+else
+  echo "OK"
+fi

@@ -1,0 +1,14 @@
+---
+
+instance: 'test1'
+platform: 'test'
+subzone:  'dmz'
+
+test::params::par1: 'depzones/dmsat1/hosts/ds1.dmsat1.org.yaml'
+#test::params::par2: 'depzones/dmsat1/hosts/ds1.dmsat1.org.yaml'
+#test::params::par3: 'depzones/dmsat1/hosts/ds1.dmsat1.org.yaml'
+#test::params::par4: 'depzones/dmsat1/hosts/ds1.dmsat1.org.yaml'
+#test::params::par5: 'depzones/dmsat1/hosts/ds1.dmsat1.org.yaml'
+#test::params::par6: 'depzones/dmsat1/hosts/ds1.dmsat1.org.yaml'
+#test::params::par7: 'depzones/dmsat1/hosts/ds1.dmsat1.org.yaml'
+#test::params::par8: 'depzones/dmsat1/hosts/ds1.dmsat1.org.yaml'
