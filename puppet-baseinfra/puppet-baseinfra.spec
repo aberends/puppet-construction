@@ -9,6 +9,7 @@ Source:       %{name}.tar.gz
 BuildRoot:    %{_tmppath}/%{name}-root
 Requires:     puppet-structure
 Requires:     puppet-stdlib
+Requires:     puppet-gpgme
 
 %description
 
