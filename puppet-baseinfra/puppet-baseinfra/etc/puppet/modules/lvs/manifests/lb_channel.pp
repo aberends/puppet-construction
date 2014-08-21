@@ -20,6 +20,6 @@
 # Copyright 2014 Allard Berends
 #
 class lvs::lb_channel inherits lvs::params {
-  rhn_channel{$rhn_channel:}
+  rhn_channel{$lb_channel:}
 } # end lvs::install
 
