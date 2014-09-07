@@ -10,6 +10,10 @@
 #
 # === Parameters
 #
+# *want_bashrc*
+#   Default: 'no'
+#
+#   Get a development .bashrc on target node, under /root.
 # *rpms*
 #   Default: []
 #
@@ -40,6 +44,7 @@
 #
 class support6::params (
   $rpms          = [],
+  $want_bashrc   = 'no',
 ) {
   # AB: code here must have not side effects. Only setting
   # of variables is allowed!

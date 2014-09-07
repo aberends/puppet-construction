@@ -37,4 +37,14 @@ class support6 inherits support6::params {
       ensure => 'installed',
     }
   } # if
+
+  if $want_bashrc == 'yes' {
+    file {'/root/.bashrc':
+      ensure    => file,
+      owner     => 'root',
+      group     => 'root',
+      mode      => '0644',
+      source    => 'puppet:///modules/support6/bashrc',
+    }
+  } # if
 } # end support6
